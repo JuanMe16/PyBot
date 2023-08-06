@@ -1,5 +1,6 @@
-import discord
+from app.database import start_db
 from settings import token
+import discord
 
 bot = discord.Bot()
 
@@ -14,4 +15,5 @@ async def on_connect():
 async def on_ready():
     print(f"!!! The bot is online {bot.user} !!!")
 
+start_db()
 bot.run(token)
