@@ -1,4 +1,4 @@
-from discord import Cog, Bot, slash_command, ApplicationContext
+from discord import Cog, Bot, slash_command, ApplicationContext, SlashCommandOptionType
 from app.utils import embed_generator
 from app.models.Models import User
 from app.database import bot_db
@@ -29,10 +29,17 @@ class EconomyCog(Cog):
         message_embed = embed_generator.simple_embed('Bank deposit',updated_bank_result)
         await ctx.respond(embed=message_embed)
 
+    @slash_command(name='transfer', description='Transfer an amount of money to another discord user')
+    async def transfer(self, ctx: ApplicationContext, user: SlashCommandOptionType.user, money: int):
+        receiver_id = user.id
+        transfer_result = bot_db.user_controller.transfer_money(receiver_id, ctx.author.id, money)
+        message_embed = embed_generator.transaction_info(money, ctx.author.name, user.name, transfer_result)
+        await ctx.respond(embed=message_embed)
+
     @slash_command(name='wallet', description='Show your profit')
     async def wallet(self, ctx: ApplicationContext):
         get_wallet_result = bot_db.user_controller.get_wallet(ctx.author.id)
-        message_embed = embed_generator.simple_embed('Wallet',get_wallet_result)
+        message_embed = embed_generator.money_personal_info(get_wallet_result[0], get_wallet_result[1])
         await ctx.respond(embed=message_embed)
 
 def setup(bot: Bot):

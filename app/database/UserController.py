@@ -16,10 +16,28 @@ class UserController:
             if not existing_user:
                 return 'You are not registered.'
             
-            return f'You have ${existing_user.wallet_money} on your wallet'
+            return (f'You have ${existing_user.wallet_money} on your wallet', f'And ${existing_user.bank_money} on bank.')
         except Exception as ex:
             print(ex)
             return 'Internal error'
+        
+    def transfer_money(self, receiver_id, transmitter_id, money):
+        try:
+            transfer_user = self.session.execute(select(User).filter_by(id=transmitter_id)).scalar()
+            receiver_user = self.session.execute(select(User).filter_by(id=receiver_id)).scalar()
+            if not transfer_user or not receiver_user:
+                return 'One of you two are not registered.'
+            if transfer_user.bank_money < money or money <= 0:
+                return "You don't have enough money on bank to transfer."
+            
+            transfer_user.bank_money -= money
+            receiver_user.bank_money += money
+            self.session.commit()
+            return 'Successfull transaction'
+        except Exception as ex:
+            print(ex)
+            return 'Internal Error'
+
 
     def register_user(self, new_user: User):
 
