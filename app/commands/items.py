@@ -8,8 +8,8 @@ class ItemsCog(Cog):
 
     @slash_command(name='item_shop', description='Shows all the items on the shop.')
     async def item_shop(self, ctx: ApplicationContext):
-        get_food_result = bot_db.food_controller.get_food_shop()
-        shop_embed = embed_generator.food_shop_embed(get_food_result)
+        get_item_result = bot_db.item_controller.get_item_shop()
+        shop_embed = embed_generator.items.item_shop_embed(get_item_result)
         await ctx.respond(embed=shop_embed, ephemeral=True)
 
 def setup(bot: Bot):
