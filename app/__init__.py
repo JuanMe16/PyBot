@@ -6,7 +6,7 @@ bot = discord.Bot()
 
 @bot.event
 async def on_connect():
-    bot.load_extension(name="app.commands", recursive=True)
+    bot.load_extension(name="app.commands")
     if bot.auto_sync_commands:
         await bot.sync_commands()
     print(f'Commands has been loaded.')

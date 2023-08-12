@@ -11,7 +11,7 @@ class EconomyCog(Cog):
         self.bot = bot
 
     async def cog_command_error(self, ctx: ApplicationContext, error: Exception) -> None:
-        error_embed = embed_generator.error_embed(error.args[0])
+        error_embed = embed_generator.error_embed(error.args[0][52:])
         return await ctx.respond(embed=error_embed, ephemeral=True)
 
     @slash_command(name='register', description='Registers you on the economy bot.')
