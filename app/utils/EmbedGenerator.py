@@ -18,3 +18,11 @@ class EmbedGenerator:
         )
         new_embed.add_field(name=message_title, value=message_value)
         return new_embed
+    
+    def error_embed(self, error_value):
+        error_embed = Embed(
+            colour=Colour.red(),
+            timestamp=datetime.now()
+        )
+        error_embed.add_field(name='Error message', value=error_value)
+        return error_embed

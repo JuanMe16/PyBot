@@ -19,11 +19,11 @@ class Item(Base):
 
     id = Column(Integer, primary_key=True, unique=True)
     name = Column(String(10), nullable=False)
+    category = Column(String(30), nullable=False)
     price = Column(Integer, nullable=False, default=50)
-    quality = Column(Integer, nullable=False, default=1)
 
     def __str__(self):
-        return f'{self.name} it cost ${self.price} and it haves a {self.quality} for you!'
+        return f'{self.name} it cost ${self.price}'
     
 class UserItem(Base):
     __tablename__ = 'user_item'

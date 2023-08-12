@@ -3,6 +3,7 @@ from app.utils import embed_generator
 from app.database import bot_db
 
 class ItemsCog(Cog):
+    
     def __init__(self, bot):
         self.bot = bot
 

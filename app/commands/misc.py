@@ -2,6 +2,7 @@ from discord import Cog, Bot, slash_command, ApplicationContext
 from app.utils import embed_generator
 
 class MiscellaniousCog(Cog):
+    
     def __init__(self, bot):
         self.bot = bot
 
