@@ -1,7 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from datetime import datetime, timedelta
 from app.models.Models import User
+from datetime import datetime, timedelta
+from app.utils.AuthFunctions import check_registered_user
 
 class UserController:
     __session: Session
@@ -10,19 +11,13 @@ class UserController:
     def __init__(self, created_session):
         self.__session = created_session
 
-    def __check_registered_user(self, user_id):
-        user_to_check = self.__session.execute(select(User).filter_by(id=user_id)).scalar()
-        if not user_to_check:
-            raise ValueError('This user is not registered.')
-        return user_to_check
-
     def get_wallet(self, user_id):
-        found_user = self.__check_registered_user(user_id)
+        found_user = check_registered_user(user_id, self.__session)
         return (f'You have ${found_user.wallet_money} on your wallet', f'And ${found_user.bank_money} on bank.')
         
     def transfer_money(self, receiver_id, transmitter_id, money):
-        transfer_user = self.__check_registered_user(transmitter_id)
-        receiver_user = self.__check_registered_user(receiver_id)
+        transfer_user = check_registered_user(transmitter_id, self.__session)
+        receiver_user = check_registered_user(receiver_id, self.__session)
         if transfer_user.bank_money < money or money <= 0:
             return "You don't have enough money on bank to transfer."
             
@@ -43,7 +38,7 @@ class UserController:
         return 'Successfully registered'
 
     def deposit_bank(self, user_id, value):
-        user_found = self.__check_registered_user(user_id)
+        user_found = check_registered_user(user_id, self.__session)
         if user_found.wallet_money < value or value <= 0:
             return "Digit a valid money amount"
             
@@ -53,7 +48,7 @@ class UserController:
         return "Successfully deposited."
         
     def withdraw_bank(self, user_id, value):
-        user_found = self.__check_registered_user(user_id)
+        user_found = check_registered_user(user_id, self.__session)
         if user_found.bank_money < value or value <= 0:
             return "Digit a valid money amount"
             
@@ -66,7 +61,7 @@ class UserController:
         if float(self.users_cooldown.get(user_id, 0)) > datetime.now().timestamp():
             return "You are on cooldown"
 
-        user_found = self.__check_registered_user(user_id)    
+        user_found = check_registered_user(user_id, self.__session)    
         user_found.wallet_money += value
         self.__session.commit()
         self.users_cooldown[user_id] = (datetime.now() + timedelta(minutes=10)).timestamp()
