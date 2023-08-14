@@ -30,11 +30,11 @@ And that's all, the bot should be log in discord, if you want to use the command
 
 # ERM (Entity Relational Model)
 
-![image](https://github.com/JuanMe16/PyBot/assets/112258389/d6ed6902-1878-4fcd-be5c-b5a397caa545)
+![image](https://i.imgur.com/rBL08lf.png)
 
 
 # Trello
 I used this trello to plan the bot, other ideas and have a follow-up to all the commands and tasks.
 This trello is on my mother language (Spanish).
 
-![image](https://github.com/JuanMe16/PyBot/assets/112258389/d9120990-e110-46d9-9aa9-3baefc09cb14)
+![image](https://i.imgur.com/tb14nOp.png)
