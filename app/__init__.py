@@ -15,5 +15,6 @@ async def on_connect():
 async def on_ready():
     print(f"!!! The bot is online {bot.user} !!!")
 
-start_db()
-bot.run(token)
+def start_bot():
+    start_db()
+    bot.run(token)

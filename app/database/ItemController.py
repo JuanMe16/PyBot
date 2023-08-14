@@ -42,7 +42,7 @@ class ItemController:
         user_object = check_registered_user(user_id, self.__session)
         item_object = self.__check_item(item_id)
         calculated_value = item_object.price*quantity
-        if calculated_value > user_object.wallet_money or quantity < 0:
+        if calculated_value > user_object.wallet_money:
             raise ValueError("Insufficient money or invalid quantity number.")
 
         entry_exists = self.__check_item_in_backpack(user_object.id, item_object.id)
@@ -56,3 +56,20 @@ class ItemController:
             self.__session.commit()
 
         return f'You have just bought {quantity} of {item_object.name}'
+    
+    def remove_item(self, user_id, item_id, quantity):
+        user_object = check_registered_user(user_id, self.__session)
+        item_object = self.__check_item(item_id)
+        calculated_sell_value = round(item_object.price*0.85)
+        object_in_backpack = self.__check_item_in_backpack(user_object.id, item_object.id)
+        if not object_in_backpack or object_in_backpack.quantity < quantity:
+            raise ValueError("You don't own that much of the item.")
+        
+        if (object_in_backpack.quantity-quantity) <= 0:
+            self.__session.delete(object_in_backpack)
+        else:
+            object_in_backpack.quantity -= quantity
+
+        user_object.wallet_money += calculated_sell_value*quantity
+        self.__session.commit()
+        return f'You have just sell {quantity} of {item_object.name}'

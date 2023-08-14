@@ -19,7 +19,7 @@ class UserController:
         transfer_user = check_registered_user(transmitter_id, self.__session)
         receiver_user = check_registered_user(receiver_id, self.__session)
         if transfer_user.bank_money < money or money <= 0:
-            return "You don't have enough money on bank to transfer."
+            raise ValueError("You don't have enough money on bank to transfer.")
             
         transfer_user.bank_money -= money
         receiver_user.bank_money += money
@@ -40,7 +40,7 @@ class UserController:
     def deposit_bank(self, user_id, value):
         user_found = check_registered_user(user_id, self.__session)
         if user_found.wallet_money < value or value <= 0:
-            return "Digit a valid money amount"
+            raise ValueError("Digit a valid money amount")
             
         user_found.wallet_money -= value
         user_found.bank_money += value
@@ -50,7 +50,7 @@ class UserController:
     def withdraw_bank(self, user_id, value):
         user_found = check_registered_user(user_id, self.__session)
         if user_found.bank_money < value or value <= 0:
-            return "Digit a valid money amount"
+            raise ValueError("Digit a valid money amount")
             
         user_found.bank_money -= value
         user_found.wallet_money += value
@@ -59,7 +59,7 @@ class UserController:
 
     def pay_user(self, user_id, value):
         if float(self.users_cooldown.get(user_id, 0)) > datetime.now().timestamp():
-            return "You are on cooldown"
+            raise ValueError("You are on cooldown")
 
         user_found = check_registered_user(user_id, self.__session)    
         user_found.wallet_money += value
