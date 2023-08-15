@@ -28,6 +28,19 @@ python main.py
 And that's all, the bot should be log in discord, if you want to use the commands and such, don't forget to generate a discord invite link with all the permissions to make the bot work correctly.
 (If you don't know how, you can check it in the OAuth2 window on your application on <a href='https://discord.com/developers/applications'> Discord Developer Portal </a> and click the URL Generator, i recommend you click the bot and administrator checkboxes.)
 
+# What does the bot have?
+This is an economy bot, it means it works with a economy purpose on your discord server, it's not like an separated eceonomy on each discord guild server but it's an entire discord cross economy, so it saves people data from whatever server they call the commands, as it's work with a SQLite DB, you need to insert all the items you want to sell with the /item_shop command, i can give you the SQL Sentence to create some basic items on your shop.
+
+```sql
+INSERT INTO items VALUES (1,'Apple','Food',50);
+INSERT INTO items VALUES (2,'Banana','Food',50);
+INSERT INTO items VALUES (3,'Phone','Misc',2500);
+INSERT INTO items VALUES (4,'Cap','Misc',450);
+INSERT INTO items VALUES (5,'Wood Chest','Chest',350);
+```
+
+All the command bots have descriptions of what they do, but note that in order to work with the economy collection of commands, you need to first register yourself in the bot using /register, therefore you can use /work, /deposit, /withdraw, /transfer and other available commands, to play with the bot.
+
 # ERM (Entity Relational Model)
 
 ![image](https://i.imgur.com/rBL08lf.png)
